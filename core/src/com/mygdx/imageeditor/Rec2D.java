@@ -13,10 +13,9 @@ public class Rec2D {
 	public Vector2 Velocity;
 	private Pixmap _pixelMap;
 	private Color _recColor;
-	public Rec2D(Vector2 scale, Vector2 position, Vector2 velocity, Color color) {
+	public Rec2D(Vector2 scale, Vector2 position, Color color) {
 		Scale = scale;
 		Position = position;
-		Velocity = velocity;
 		_recColor = color;
 		generateTexture();
 	}
