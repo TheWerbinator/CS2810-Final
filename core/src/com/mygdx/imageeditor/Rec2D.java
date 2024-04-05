@@ -12,15 +12,16 @@ public class Rec2D {
 	public Texture RecTexture;
 	public Vector2 Velocity;
 	private Pixmap _pixelMap;
-	private Color _recColor;
+	protected Color _recColor;
 	public Rec2D(Vector2 scale, Vector2 position, Color color) {
 		Scale = scale;
 		Position = position;
 		_recColor = color;
 		generateTexture();
+		ImageEditor.Instance.Rectangles.add(this);
 	}
 
-	private void generateTexture() {
+	public void generateTexture() {
 		_pixelMap = new Pixmap(50, 500, Format.RGBA8888);
 		_pixelMap.setColor(_recColor);
 		for(int x = 0; x < _pixelMap.getWidth(); x++) {
