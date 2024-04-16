@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("CS2810 Final");
 		config.setWindowedMode(584, 480);
+		config.setResizable(false);
 		System.out.println("Project made by: Shawn Werber");
 		new Lwjgl3Application(new ImageEditor(), config);
 	}
