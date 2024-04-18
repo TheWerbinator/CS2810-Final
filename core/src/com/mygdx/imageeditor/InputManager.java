@@ -1,5 +1,6 @@
 package com.mygdx.imageeditor;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -10,6 +11,7 @@ public class InputManager implements InputProcessor {
 	public Array<IHoverable> Hoverables = new Array<IHoverable>();
 	private IClickable _currentlyClicked;
 	private IHoverable _currentlyHovered;
+	private boolean _controlPressed;
 	public InputManager() {
 		Instance = this;
 	}
@@ -40,8 +42,24 @@ public class InputManager implements InputProcessor {
         return true;
     }
     
-    public boolean keyDown(int keycode) {return false;}
-    public boolean keyUp(int keycode) {return false;}
+    public boolean keyDown(int keycode) {
+		if(_controlPressed && keycode == Keys.S) {
+			 System.out.println("YOU PRESSED CONTROL + S!");
+			try {
+				ImageInputOutput.Instance.saveImage("C:/Users/shawn/Downloads/output.bmp");
+			} catch (Exception e) {
+				System.out.println("Something went wrong.");
+			}
+		}
+		if(keycode == Keys.CONTROL_LEFT) _controlPressed = true;
+
+		return false;
+	}
+    
+    public boolean keyUp(int keycode) {
+    	if(keycode == Keys.CONTROL_LEFT) _controlPressed = false;
+    	return false;
+	}
     public boolean keyTyped(char character) {return false;}
     public boolean scrolled(float amountX, float amountY) {return false;}
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {return false;}

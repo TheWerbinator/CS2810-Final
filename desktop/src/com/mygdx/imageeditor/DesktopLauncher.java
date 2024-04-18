@@ -2,6 +2,7 @@ package com.mygdx.imageeditor;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -12,6 +13,12 @@ public class DesktopLauncher {
 		config.setWindowedMode(584, 480);
 		config.setResizable(false);
 		System.out.println("Project made by: Shawn Werber");
-		new Lwjgl3Application(new ImageEditor(), config);
+		ImageEditor editor = new ImageEditor();
+		config.setWindowListener(new Lwjgl3WindowAdapter() {
+			public void filesDropped (String[] files) {
+				editor.filesImported(files);
+			}
+		});
+		new Lwjgl3Application(editor, config);
 	}
 }

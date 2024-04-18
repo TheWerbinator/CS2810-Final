@@ -16,22 +16,27 @@ public class ImageEditor extends ApplicationAdapter {
 	public Array<Rec2D> Rectangles = new Array<Rec2D>();
     public EditWindow _editWindow;
 	SpriteBatch batch;
+	
+	public void filesImported(String[] filePaths) {
+		Pixmap map = ImageInputOutput.Instance.loadImage(filePaths[0]);
+		if(map == null) return;
+		_editWindow.RecTexture = new Texture(map);
+	}
 
 	public void create () {
+		Util.testIntToSignedBytes();
         Instance = this;
         InputManager inputManager = new InputManager();
         Gdx.input.setInputProcessor(inputManager);
         
         new ImageInputOutput();
-        Pixmap editMap =ImageInputOutput.Instance.loadImage("blackbuck.bmp");
         
         batch = new SpriteBatch();
         ScreenSize = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Vector2 _editWindowSize = new Vector2(500, ScreenSize.y - 40);
         _editWindow = new EditWindow(
-        		_editWindowSize, new Vector2(ScreenSize.x - _editWindowSize.x, 0), Color.GRAY
+        		_editWindowSize, new Vector2(ScreenSize.x - _editWindowSize.x, 0)
 		);
-        _editWindow.DoodleTexture = new Texture(editMap);
         Button b = new Button(new Vector2(50,50), Vector2.Zero, Color.GOLD);
         CollisionManager collisionManager = new CollisionManager();
 	}
