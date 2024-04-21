@@ -1,4 +1,4 @@
-package com.mygdx.imageeditor;
+package Utility;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,16 +8,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.imageeditor.EditWindow;
+import com.mygdx.imageeditor.Util;
 
 public class ImageInputOutput {
 	public static ImageInputOutput Instance;
 	private byte[]  _fileHeader;
 	private Pixmap _pixels;
+	public String ImageFolderLocation;
 	public ImageInputOutput() {
 		Instance = this;
 	}
 	
 	public Pixmap loadImage(String filePath) {
+		ImageFolderLocation = scrapeFolderLocation(filePath);
 		byte[] fileBytes = Gdx.files.internal(filePath).readBytes();
 		if(fileBytes[0] != 'B' || fileBytes[1] != 'M') {
 			System.out.println(filePath + " is NOT a bitmap image");
@@ -76,7 +80,7 @@ public class ImageInputOutput {
 				 colorIndex += 3;
 			 }
 		}
-		Pixmap doodle = Util.scalePixmap(EditWindow.Instance._doodleMap, new Vector2(_pixels.getWidth(), _pixels.getHeight()));
+		Pixmap doodle = Util.scalePixmap(EditWindow.Instance.DoodleMap, new Vector2(_pixels.getWidth(), _pixels.getHeight()));
 		colorIndex = 0;
 		for(int y = doodle.getHeight() - 1; y >= 0; y--) {
 			for(int x = 0; x < doodle.getWidth(); x++) {
@@ -91,5 +95,14 @@ public class ImageInputOutput {
 		output.write(_fileHeader);
 		output.write(colorData);
 		output.close();
+	}
+
+	private String scrapeFolderLocation(String filePath) {
+		StringBuilder builder = new StringBuilder(filePath);
+		for(int i = filePath.length() - 1; i >= 0; i--) {
+			if(filePath.charAt(i) != '\\') continue;
+			return builder.substring(0,i);
+		}
+		return null;
 	}
 }

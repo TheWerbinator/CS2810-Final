@@ -1,9 +1,12 @@
-package com.mygdx.imageeditor;
+package Utility;
+
+import java.io.IOException;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.imageeditor.ImageEditor;
 
 public class InputManager implements InputProcessor {
     public static InputManager Instance;
@@ -38,15 +41,17 @@ public class InputManager implements InputProcessor {
     			new Vector2(screenX, ImageEditor.Instance.ScreenSize.y - screenY));
     	if(collision != _currentlyHovered && _currentlyHovered != null) _currentlyHovered.onHoverExit();
     	if(collision != null) collision.onHover();
+    	if(collision != _currentlyHovered) _currentlyClicked = null;
     	_currentlyHovered = collision;
         return true;
     }
     
     public boolean keyDown(int keycode) {
+    	if(ImageInputOutput.Instance.ImageFolderLocation == null) { return false; };
 		if(_controlPressed && keycode == Keys.S) {
 			 System.out.println("YOU PRESSED CONTROL + S!");
 			try {
-				ImageInputOutput.Instance.saveImage("C:/Users/shawn/Downloads/output.bmp");
+				ImageInputOutput.Instance.saveImage(ImageInputOutput.Instance.ImageFolderLocation + "\\output.bmp");
 			} catch (Exception e) {
 				System.out.println("Something went wrong.");
 			}

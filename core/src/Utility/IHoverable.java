@@ -1,4 +1,4 @@
-package com.mygdx.imageeditor;
+package Utility;
 
 public interface IHoverable {
 	public void onHover();
